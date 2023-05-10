@@ -1,0 +1,203 @@
+//chapter 3
+#include <iostream>
+int main()
+{
+	char ch = 'N';
+	std::cout.put(ch);
+	std::cout.put('!');
+	std::cout.put('\n');
+	return 0;
+}
+
+
+#include <iostream>
+#include <Windows.h>
+int main()
+{
+	int cout = 1;
+	char alarm = '\a';
+	for (int n = 0; n < 10; n++)
+	{
+		std::cout << alarm;
+		std::cout << cout << '\n';
+		cout++;
+		Sleep(1000);
+	}
+	std::cout << "Ben\"Buggsie\" Hacker\nwas here!\n";
+	return 0;
+}
+
+
+//换行方式
+std::cout << endl;
+std::cout << '\n';
+std::cout << "\n";
+
+
+
+
+//07（oct) = 7(dec)
+//ASCLL(\a) = 7(dec)
+#include <iostream>
+int main()
+{
+    char ch('\07');
+	std::cout << ch << std::endl;
+	return 0;
+}
+
+
+
+//3.7 bondini.cpp
+#include <iostream>
+int main()
+{
+	using namespace std;
+	cout << "\aOperation \"HYperHype\" is now activated!\n";
+	cout << "Enter your agent code:________\b\b\b\b\b\b\b\b";
+	long code;
+	cin >> code;
+	cout << "\aYou enterned " << code << "...\n";
+	cout << "\aCode verified! Proceed with Plan z3\n!";
+	return 0;
+}
+
+
+
+//wchar_t
+#include <iostream>
+int main()
+{
+	wchar_t bob = L'P';
+	std::wcout << L"tall" << std::endl;    //tall
+	std::wcout << bob << std::endl;        //P
+	//cin和cout将输入和输出看作是char流，因此不适于用来处理wchar_t类型
+	std::cout << bob << std::endl;         //80
+	return 0;
+}
+
+
+
+
+//bool
+#include <iostream>
+int main()
+{
+	bool ready = true;
+	bool unready = false;
+	std::cout <<  "(int)ready is" << (int)ready << std::endl;        //1
+	std::cout << "(int)unready is" << (int)unready << std::endl;     //0
+	bool start = -100;                         //start assigned true
+	bool stop = 0;                             //stop assigned false
+	std::cout << "bool start is" << start << std::endl;              //1
+	std::cout << "bool stop is " << stop << std::endl;               //0
+	return 0;
+}
+
+
+
+
+#include <iostream>
+int main()
+{
+	int i, j;
+	i = 2;
+	j = 3;
+	std::cout << i * j;      //6
+	return 0;
+}
+
+
+
+//浮点常量
+//浮点常量在默认的情况下是double
+//1.234f           a float constant
+//2.45E20F         a float constant
+//2.345324E28      a double constant       
+//2.2L             a long double constant
+
+
+
+#include <iostream>
+int main()
+{
+	float a = 2.34E22f;
+	float b = a + 1.0f;
+	std::cout << "a=" << a << std::endl;             //a=2.34e+22             
+	std::cout << "b-a=" << b - a << std::endl;       //b-a=0
+	return 0;
+}
+//2.34E22是一个23位的数字。加上1，就是在最末位加1.但float类型只能表示数字中
+  的前6位或7位，因此修改第23位对这个值不会有任何影响。
+
+
+
+
+//%
+#include <iostream>
+bool compareA_B(int a, int b);
+int main()
+{
+	int a = 10;
+	int b = -2;
+	int result = compareA_B(10, -2);
+	std::cout << "the compare result is " << result << std::endl;    //1
+	return 0;
+}
+
+bool compareA_B(int a, int b)
+{
+	int j = (a / b) * b + a % b;
+	if (j - a == 0)
+		return true;
+	else
+		return false;
+}
+
+//进行%运算时两个操作数必须都是整型，将该运算符用于浮点数将导致编译错误
+//如果其中一个是负数其结果的符号满足：（a/b）* b + a % b = a
+
+
+
+
+
+
+//对于float，C++只保证6位有效位。如果需要更高的精度使用double或long double
+
+//cout.setf ()的作用是通过设置格式标志来控制输出形式
+
+//float值对int变量来说太大了： float的指数位决定了float的范围，因为有指数位，所以范围比int类型大很多
+
+//以{ }方式初始化时进行的转换C++11将使用大括号的初始化称为列表初始化(narrowing)，因为这种初始化常用于给复杂的数据类型提供值列表。
+//列表初始化不允许缩窄，即变量的类型可能无法表示赋给的值
+
+const int code =66;
+int x=66;
+char c1 {31325};      //narrowing, not allowed
+char c2 = {66};       //allowed because char can hold 66
+char c3 {code};       //ditto(同上）
+char c4 = {x};        //not allowed, x is not constant
+x = 31325;
+char c5 = x;          //allowed by this form of initialization 
+
+
+
+//强制类型转换
+（typeName) value                 //converts value to typeName type(C)
+  typeName (value)                //converts value to typeName type(C++)
+  
+  
+  //static_cast<>
+  static_cast<long> (thorn)         //returns a type long converts of thorn
+  
+  
+  //auto
+  auto n = 100;                 //n is int
+auto x = 1.5;                 //x is double
+auto y = 1.3e12L;             //y is long double
+auto x =0.0;                  //ok, x is double because 0.0 is double
+double y = 0;                 //ok. 0 automatically converted to 0.0
+auto z = 0;                   //oops, z is int because 0 is int
+
+
+
