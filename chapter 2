@@ -1,0 +1,9 @@
+//chapter 2
+//赋值从右向左进行
+#include <iostream>
+int main()
+{
+	int a, b, c, d;
+	a = b = c = d = 10;
+	return 0;
+}
