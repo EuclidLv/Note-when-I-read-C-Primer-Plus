@@ -1,0 +1,724 @@
+//chapter 4
+
+//数组
+#include <iostream>
+int main()
+{
+	const int i(5);
+	int arr[i];
+	std::cout << "sizeof(arr) " << sizeof arr << std::endl;
+	std::cout << "sizeof(arr[i]) " << sizeof(arr[0]);
+	return 0;
+	return 0;
+}
+
+//sizeof运算符用于数组名，得到的将是整个数组中的字节数。
+//sizeof运算符用于数组元素，则将得到的时元素的长度(单位是字节）
+
+
+
+
+#include <iostream>
+int main()
+{
+	char arr[] = { 'a','b','c','d','e','\0' };  
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	std::cout << "there are " << sz << "character in the array" << std::endl;      //6
+	return 0;
+}
+
+
+
+#include <iostream>
+int main()
+{
+	char arr[5] = { 'a','b','c','d','e' };
+	int count = 0;
+	for(int i = 0; i < 5; i++)
+	{
+		if (arr[i] != '\0')
+			count++;
+	}
+	std::cout << "count is " << count << std::endl;                   //5 
+	return 0;
+}
+
+
+#include <iostream>
+int main()
+{
+	char arr[5] = { 'a','b','c','d','\0' };
+	int count = 0;
+	for(int i = 0; i < 5; i++)
+	{
+		if (arr[i] != '\0')
+			count++;
+	}
+	std::cout << "count is " << count << std::endl;                    //4
+	return 0;
+}
+
+
+
+//数组列表初始化禁止缩窄转换
+
+//字符串
+
+//字符串
+char dog[8] = { 'b','e','a','u','x',' ','I','I' };               //not a string!
+char cat[8] = { 'f','a','t','e','s','s','a','\0' };              //a string!
+
+
+
+//字符串常量/字符串字面值
+char bird[11] = "Mr. Cheeps";            //the \0 is understood
+char fish[] = "Mr. CHeeps";              //let the comiler(编译器) count
+
+
+
+
+#include <iostream>
+int main()
+{
+	char fish[] = "abcdefghijklmnopqrstuvwxyz";
+	int sz = sizeof fish;
+	std::cout << sz << std::endl;                       //27
+	return 0;
+}
+
+//sizeof计算字符串常量的时候包含字符串末尾的'\0'
+
+
+
+
+
+
+#include <iostream>
+int main()
+{
+	char fish[7] = "abcdef";
+	for (int i = 0; i < 7; i++)
+	{
+		std::cout << "now is " << i << "\t\t";
+		std::cout << "cout char fish[i]: " << fish[i]    <<"\t\t";
+		std::cout << "cout int (char fish[i]): " << int(fish[i]);
+		std::cout << std::endl;
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+#include <iostream>
+int main()
+{
+	char Error = "S";
+	return 0;
+}
+
+//"S"不是字符常量，它表示的是两个字符（字符S和'\0')组成的字符串
+//"S"实际上表示的是字符串所在的内存地址
+
+
+
+
+
+
+
+
+//拼接字符串常量
+#include <iostream>
+int(main)()
+{
+	std::cout << "this is test one (LINKED):" << std::endl;
+	std::cout << "If you come across a translation that isn’t quite right, click the “Suggest an edit” link. The translated text will highlight, and you can type and enter your correction manually. Don’t forget to click “Submit”." << std::endl;
+	std::cout << std::endl;
+	std::cout << "If you come across a translation that isn’t quite right, click the “Suggest an edit” link. The translated";
+	std::cout << "text will highlight, and you can typeand enteryour correction manually.Don’t forget to click “Submit”.\n";
+	return(0);
+}
+
+the output is same
+
+
+
+
+
+//#include <cstring>     ———— strlen
+#include <iostream>
+#include <cstring>
+int main()
+{
+	const int Size(10);
+	char arr1[Size]{};
+	char arr2[Size] = "abcdefghi";
+	std::cout << "enter 9 characters_________\b\b\b\b\b\b\b\b\b";
+	std::cin >> arr1;
+	std::cout<< "the value strlen returned" << strlen(arr1) << std::endl;//return value 9
+	std::cout << "the value sizeof returned" << sizeof(arr1) << std::endl;//return valus 10
+	return 0;
+}
+
+//strlen 返回的是存储在数组中的字符串的长度，而不是数组本身长度
+//strlen（）只计算可见的字符，而不把空字符计算在内
+
+//如果cosimc是字符串，则要存储该字符串的数组长度不能短于strlen（cosimc） + 1
+
+
+
+
+
+
+//字符串输入
+//cin使用空白（空格、制表符和换行符）来确定字符串的结束位置，这意味着cin在获取字符数组输入时只读取一个单词。读取这个单词后，cin将该字符串放到数组中，并自动在结尾添加空字符。
+
+
+
+
+
+
+
+
+//每次读取一行字符串输入
+//面向行的输入： getline（） get()
+//getline()和get() 这两个函数都读取一行输入，直到到达换行符
+//但，getline()将丢弃换行符，而get()将换行符保留在输入序列中
+
+
+cin.getline(name, figure)     //第一个参数是目标数组， 第二个参数是数组长度
+
+cin.get(name, figure).get()   //第一个参数是目标数组， 第二个参数是数组长度
+
+
+//使用cin.get(name, figure), 编译器知道是要将一个字符串放入数组中
+//使用cin.get()，编译器知道要读取一个字符
+//getline()使用起来简单，get()使得检查错误更加简单
+
+
+
+
+
+//string 类简介
+
+//#include <string>  ———————— string
+
+string str1;
+string str2;
+string str3;
+
+//the following is valid
+
+str2 = str1;
+str3 = str1 + str2;       //assign str3 the joined strings
+str1 += str2;             //add str2 to the end of str1
+
+
+
+//#include <cstring>    ——————————  strcpy()
+
+//复制字符串到字符数组中
+strcpy(charr1, charr2)                  //copy charr2 to charr1
+
+strcat(charr1, charr2)                  //append contents of charr2 to charr1
+
+
+
+
+#include <iostream>
+#include <string>
+#include <cstring>
+int main()
+{
+	using namespace std;
+	char charr1[20];
+	char charr2[20] = "jaguar";
+	string str1;
+	string str2 = "panther";
+	
+	//assignment for string objects and character arrays
+	str1 = str2;
+	strcpy(charr1, charr2);
+
+	//appending for string objects and character arrays
+	str1 += " paste";
+	strcat(charr1, charr2);
+
+	//finding the length of a string object and a C-style string
+	int len1 = str1.size();
+	int len2 = strlen(charr1);
+
+	cout << "the string " << str1 << " contains " << len1 << " characters.\n";
+	cout << "the string " << charr1 << " contains " << len2 << "characters.\n";
+	return 0;
+}
+
+
+
+
+//strncat()和strncpy()   可以复制末尾'\0'
+
+//strlen()从数组的第一个元素开始计算字节数，直到遇到空字符
+
+
+
+
+getline(cin, str);
+
+//getline()不是类方法，将cin作为参数，指出到哪里去查找输入。
+//没有指出字符串输入长度的参数，因为string对象将根据字符串的长度自动调整自己的大小
+
+
+
+
+
+//4.3.5其他类型字符串字面值
+wchar_t title[] = L"efbihubhebui";       //w_char string
+char16_t name[] = u"erbnruebuierhb";     //char_16 string
+char32_t car[] = U"vebueeuui";           //char_32 string
+
+
+
+
+//4.3.5原始字符串（raw)
+//将”(和)”作为定界符同时也可以在“和（添加任意数量的如除空格、左括号、右括号、斜杠和控制制表符（如制表符和换行符）之外的基本字符
+cout << R"+*("(Who wouldn't?)", she whispered.)+*" << endl;
+
+
+
+//结构
+struct inflatable
+{
+    char name[20];
+    float volume;
+    double price;
+}hat,glass;
+
+//like int a;
+//inflatable is "int"; while hat,glass and so on is same as "a"
+
+//   .成员运算符
+//    way to use e.g.  hat.name   or    hat.volume 
+
+
+
+struct inflatable goose;          //keyword struct required in C
+inflatable vincent;               //keyword struct not required in C++
+
+
+//结构初始化不允许缩窄转换
+
+//结构体可以将string类作为成员
+
+//可以将结构体作为参数传递给函数，也可以让函数返回一个结构
+
+//可以使用赋值运算符将结构赋给另一个同类型的结构，这样结构中每个成员都将被设置为另一个结构中相应成员的值，即使成员是数组。这种赋值成为成员赋值
+
+
+
+#include <iostream>
+using namespace std;
+
+struct inflatable
+{
+	char name[20];
+	float volume;
+	double price;
+};
+int main()
+{
+	inflatable bouquet =
+	{
+		"sunflowers",
+		0.20,
+		12.49
+	};
+	inflatable choice;
+	cout << "bouquet: " << bouquet.name << " for $";
+	cout << bouquet.price << endl;
+
+	choice = bouquet;
+	cout << "choice: " << choice.name << " for $";
+	cout << choice.price << endl;
+	return 0;
+}
+
+
+
+
+//初始化以这种方式创建的变量（P76)
+
+struct perks
+{
+	int key_number;
+	char car[12];
+} mr_glitz =
+{
+	7,                  //value for mr_glitz.key_number  member
+	"Packard"           //value for mr_glitz.car member
+};
+
+
+
+
+
+//结构数组
+
+inflatable gifts[100];                //array of inflatable structures
+
+cin >> gifts[0].volume;               //use volume member of first struct
+cout << gitfs[99].price << endl;      //display price member of last struct
+
+
+
+
+infalatable guests[2]         //initializing an array of structs
+{
+	{"Bambi",0.5,21.99},            //first structure in array
+ 	{"Godzilla",2000,565,99}        //next structure in array
+};
+
+
+
+
+//4.4.6  结构中的位字段
+
+//（好像没什么用）
+
+
+
+//共用体
+//只挖一个坑（也就是说只能存一个），且挖的坑是按照最大的那个来的
+
+
+//共用体的声明
+union one4all
+{
+	int int_val;
+	long long_val;
+	double double_val;
+};
+
+//可以用one4all存储int long double型但同一时间只可以存储一个
+
+one4all pail;
+pail.int_val = 5;       //store an int
+cout << pail_val;       
+pail.double_val = 1.38;   //store a double, int value is lost
+
+
+
+//使用共用体来节省空间，对于小行存储设备使用共用体是必要的
+//e.g.   管理一个小商品目录，其中有一些商品的ID为整数，而另一些ID为字符串，在这样的情况下可以使用共用体
+
+
+
+
+struct widget
+	{
+		char brand[20];
+		int type;
+		union id
+		{
+			long id_num;
+			char id_char[20];
+		}id_val;
+	};
+	widget prize;
+
+	if (prize.type == 1)
+		cin >> prize.id_val.id_num;
+	else
+		cin >> prize.id_val.id_char;
+
+
+
+
+
+// 枚举
+//枚举变量在算数运算时被提升为整型
+
+enum spectrum {red,yellow,green,blue,violet,indogo,ultraviolet};
+//通过让spectrum成为新类型的名称
+//spectrum被称为枚举，就像struct变量被称为结构一样
+//red,yellow,green,blue,violet,indogo,ultraviolet作为符号常量，对应整数值0~7.这些常量成为枚举常量
+//如果让yellow=4则yellow后面的green值将被设置为5即赋予yellow的值加一
+//设置枚举量的值的时候必须为整型且是显示的
+//可以创建多个值相同的枚举量
+
+
+
+//枚举量是整型可以被提升为int型，但int型不能自动转换为枚举型
+//所以以下代码
+band = orange;   //valid
+++band;          //not valid
+band = orange + red;   // not valid 左边是枚举变量右边是int不相符；
+
+int color = blue;  //valid, spectrum type promoted to int
+band = 3;          //invalid, int not converted to spectrum
+color = 3 + red;   //valid, red converted to int
+
+
+
+
+
+//枚举变量的取值范围
+//通过强制类型转换，可以将取值范围中的任何整数值赋给枚举变量，即使这个值不是枚举值
+//最大值： 找到大于这个最大值，最小值的2的幂，将它减一得到的便是便是取值范围的上限
+//最小值： 如果不小于0，则取值范围的下限为0；否则与最大值找法相同只是添加负号
+
+
+
+//指针和自由存储空间
+//指针的大小与什么有关？
+// cpu位数（32位数4字节，64位数8字节）
+// 操作系统位数（32位数4字节，64位数8字节）
+//编译器的位数（32位数4字节，64位数8字节）
+//指针是一个变量，其存储的是值的地址，而不是值的本身
+
+
+
+
+
+int updates =6;            //declare a variable
+int * p_updates;           //declare pointer to an int
+p_updates = &updates;      //assign address of int to pointer
+
+//(int*) p_updates 这样看，前面是一个int型指针，所以p_updates 指向地址 &updates
+//而int (*p_pudates)这样看，前面是一个int型，后面*p_pudates是一个名称就像int a的a一样，所以输出的话结果为updates的值
+
+//每使用一个*可以抵消一次&带来的改变
+
+
+
+//一定要在对指针应用解除应用运算符（*）前，将指针初始化为一个确定的、适当的地址
+
+//要将数字值作为地址来使用，应通过强制类型转换将数字转换为适当的地址类型
+
+
+int *pt；
+pt = (int *) 0xB8000000; //type now match
+
+
+
+
+//new 和 delete
+typeName* poniter_name = new typeName;
+
+
+//new和delete要伴随使用使用完new后要用delect删除分配的内存否则可能导致内存泄漏
+
+
+int *ps =new int;    //allowcate memory with new
+...                  //use the memory
+delete ps;           //free memory with delete when done
+
+//这将释放ps指向的内存但不会删除指针ps本身
+//能用delete来释放使用new分配的内存。
+//对空指针使用delete也是安全的
+
+
+type_name *pointer_name = new type_name [num_elements]
+
+
+
+
+
+//c和c++内部使用指针来处理数组
+//所以以下代码
+int array[10]{};
+	cout << array << endl;
+	cout << &array << endl;
+//输出结果是相同的，但第一个表示的是数组第一个元素即array[0]的地址
+//第二个表示的是整个数组的地址
+//这意味着一下代码
+#include <iostream>
+using namespace std;
+int main()
+{
+	int array[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	int(*p)[10] = &array;
+	//	for (int i = 0; i < 10; i++)
+	//	{
+	//		cout << i << "in array is: " << p << endl;
+	//		p++;
+	//	}
+		//cout <<   "the value of array is: " << array << endl;
+		//cout << "the valuse of &array is: " << &array << endl;
+		//cout << "the value of p - array is: " << p - array << endl;
+	cout << p << endl;
+	cout << p + 1 << endl;
+	return 0;
+}
+
+
+//数组是常量所以
+arrayname = arrayname +1；  //not allowed
+//指针的值可以修改
+pointername = pointername + 1; //valid
+
+
+
+
+
+
+
+
+//sizeof不会将数组名解释为指针
+//使用方括号数组表示发等同于对指针解除引用
+
+
+tacos[0] means *tacos means the value at address tacos
+tacos[3] means *(tacos + 3) means the value at address tacos + 3 
+
+
+arrayname[i] becomes *(arrayname + 1)
+pointername[i] becomes *(pointername + i)
+
+
+int *pt=new int[10];            //pt points to block of 10 ints
+*pt = 5;                        //set element number 0 to 5
+pt[0] = 6;                      //reset element number 0 to 6;
+pt[9] = 44;                     //set tenth element (element number 9) to 44
+int coats[10];
+*(coats + 4) =12;               //set coats[4] to 12
+
+
+
+
+
+//如果结构标识符是结构名，则使用句点运算符( . )
+//如果结构标识符是指向结构的指针，则使用箭头运算符
+
+
+
+#include <iostream>
+struct inflatable
+{
+	char name[20];
+	float volume;
+	double price;
+};
+int main()
+{
+	using namespace std;
+	inflatable* ps = new inflatable;                         //allot memeory for structure
+	cout << "Enter name of inflatable item: ";
+	cin.get(ps->name, 20);                                  //method 1 for member access
+	cout << "Enter volume in cubic feet: ";
+	cin >> (*ps).volume;                                   //method 2 for member access
+	cout << "Enter price: $";
+	cin >> ps->price;
+	cout << "Name: " << (*ps).name << endl;               //method 2
+	cout << "Volume: " << ps->volume << " cubic feet\n";  //method 1
+	cout << "Price: $" << ps->price << endl;              //method 1
+	delete ps;                                            //free memory used by structure
+	return 0;
+}
+
+
+
+
+
+
+
+//静态存储
+
+//1. 在函数外定义
+//2. 在声明变量中使用关键字static
+
+static double free = 56.50;
+
+//如果函数参数是指针，且仅坐输入用，则必须在类型前加const以用来防止该指针函数体内被意外修改
+
+
+
+
+
+//4.10数组的替代品
+//模板类vector
+//使用头文件<vector>
+#include <vector>
+...
+using namespace std;
+vector<int> vi;           //creat a zero-size array of int
+int n;
+cin >> n;
+vector<double> vd(n);     //creat an array of n doubles
+
+
+//一般型式
+//vector<typeName> vt(n_elem)
+
+
+模板类array
+#include <array>
+... 
+using namespace std;
+array<int, 5>ai;       //creat array object of 5 ints
+array <double, 4>ad = {1.2, 2.1, 3.43, 4.3};
+
+//一般型式
+//array<typeName, n_elem> arr;
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <array>
+using namespace std;
+int main()
+{
+
+	//C,original C++
+	double a1[4] = { 1.2,2.4,3.6,4.8 };
+	//C++98 STL
+	vector<double> a2(4);    //creat vector with 4 elements
+	//no simple way to initialize in C98
+	a2[0] = 1.0 / 3.0;
+	a2[1] = 1.0 / 5.0;
+	a2[2] = 1.0 / 7.0;
+	a2[3] = 1.0 / 9.0;
+	//C++11 -- creat and initialize array object
+	array<double, 4> a3 = { 3.14,2.72,1.62,1.41 };
+	array<double, 4>a4;
+	a4 = a3;        //valid for array objects of same size
+	//use array notation
+	cout << "a1[2]: " << a1[2] << " at " << &a1[2] << endl;
+	cout << "a2[2]: " << a2[2] << " at " << &a2[2] << endl;
+	cout << "a3[2]: " << a3[2] << " at " << &a3[2] << endl;
+	cout << "a4[2]: " << a4[2] << " at " << &a4[2] << endl;
+	//missed
+	a1[-2] = 20.2;
+	cout << "a1[-2]: " << a1[-2] << " at " << &a1[-2] << endl;
+	cout << "a3[2]: " << a3[2] << " at " << &a3[2] << endl;
+	cout << "a4[2]: " << a4[2] << " at " << &a4[2] << endl;
+	return 0;
+}
+
+
+
+
+
+
+a2.at(1) = 2.3;        //assign 2.3 to a2[1]
+//使用at()时，将在运行时捕获非法索引
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
