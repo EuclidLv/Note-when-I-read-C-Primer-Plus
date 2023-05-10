@@ -1,0 +1,10 @@
+//chapter 1
+#include <iostream>
+int(main)()
+{
+	std::cout << "hello world" << std::endl;
+}
+
+
+
+//this is also a piece of good choice
