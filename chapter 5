@@ -1,0 +1,247 @@
+//# CHAPTER 5 循环和关系表达式
+
+//for循环
+//for循环是入口条件循环
+//在所有运算符中逗号运算符的优先级是最低的
+//cats = 17, 240;
+//被解释为(cats = 17), 240
+//也就是cats被设置为17，240根本不起作用
+//cat = （17， 240） 则将cat设置为240
+//关系运算符的优先级比算术运算符低
+//strcmp()用于比较字符串
+//该函数接受两个字符串地址作为参数。这意味着参数可以是指针、字符串常量或者是字符数组名
+//两个字符串相同返回0；
+//第一个按字母排序（ASCII）在第二个前返回负值；
+//第一个按字母排序（ASCII）在第二个后返回正值；
+//string类重载运算符 ！= 可以让：在至少有一个操作符为string对象的情况下使用；另一个可能是string也可能是C风格字符串
+//for循环中的空测试值条件被视为true
+// 5.4基于范围的for循环
+
+
+
+
+
+
+
+#include <iostream>
+int main()
+{
+	using namespace std;
+	int x;
+	cout << "the expression x= 100 has the value";
+	cout << (x = 100) << endl;
+	cout << "Now x = " << x << endl;
+	cout << "the expression x < 3 has the value ";
+	cout << (x < 3) << endl;
+	cout << "the expression x > 3 has the value ";
+	cout << (x > 3) << endl;
+	cout.setf(ios_base::boolalpha);                //a newer C++ feature
+	cout << "the expression x < 3 has the value ";
+	cout << (x < 3) << endl;
+	cout << "the expression x > 3 has the value ";
+	cout << (x > 3) << endl;
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+#include <iostream>
+const int ArSize = 16;
+int main()
+{
+	long long factorials[ArSize];
+	factorials[1] = factorials[0] = 1LL;
+	for (int i = 2; i < ArSize; i++)
+		factorials[i] = i * factorials[i - 1];
+	for (int i = 0; i < ArSize; i++)
+		std::cout << i << "! = " << factorials[i] << std::endl;
+	return 0;
+}
+
+
+
+
+
+
+#include <iostream>
+int main()
+{
+	using namespace std;
+	int a = 20;
+	int b = 20;
+	cout << "a= " << a << "   b= " << b << endl;
+	cout << "a++= " << a++ << "   ++b= " << ++b << endl;
+	cout << "a= " << a << "   b= " << b << endl;
+	int x = 5;
+	cout << "x= " << x << endl;
+	int y = ++x;
+	cout << "y= " << y<< endl;
+	cout << "x= " << x<< endl;
+	int z = 5;
+	cout << "z= " << z << endl;
+	int y = z++;
+	cout << "y=" << y << endl;
+ 	return 0;
+}
+
+
+
+
+
+#include <iostream>
+int main()
+{
+	int guests = 0;
+	while (guests++ < 10)
+		std::cout << guests << std::endl;
+	return 0;
+}
+
+
+
+
+
+
+#include <iostream>
+int main()
+{
+	using std::endl;
+	using std::cout;
+	int x = 20;
+	{
+		cout << x << endl;
+		int x = 100;
+		cout << x << endl;
+	}
+	cout << x << endl;
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+int main()
+{
+	using namespace std;
+	cout << "Enter a word: ";
+	string word;
+	cin >> word;
+	char temp;
+	int i, j;
+	for (j = 0, i = word.size() - 1; j < i; j++, i--)
+	{
+		temp = word[i];
+		word[i] = word[j];
+		word[j] = temp;
+	}
+	cout << word << endl;
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+int main()
+{
+	double price[5] = { 4.99,3.45,4.78,3.54,5.67 };
+	for (double x : price)
+	{
+		x *= 0.8;
+		std::cout << x << std::endl;
+	}
+	return 0;
+}
+
+
+
+
+
+#include <iostream>
+int main()
+{
+	using namespace std;
+	int count = 0;
+	char ch;
+	cout << "Enter characters; enter # to quit:\n";
+	cin >> ch;
+	while (ch != '#')
+	{
+		cout << ch;
+		++count;
+		cin >> ch;
+	}
+	cout << endl << count << " characters read\n";
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+int main()
+{
+	using namespace std;
+	string str;
+	int count = 0;
+	cout << "Enter characters; enter # to quit:\n";
+	cin >> str;
+	int i = 0;
+	while (str[i] != '#')
+	{
+		cout << str[i];
+		count++;
+		i++;
+		cin >> str[i];
+	}
+	cout << endl << count << " characters read\n";
+	return 0;
+}
+#include <iostream>
+int main()
+{
+	using namespace std;
+	char ch;
+	int count = 0;
+	cin.get(ch);
+	while (cin.fail() == false)
+	{
+		cout << ch;
+		++count;
+		cin.get(ch);
+	}
+	cout << endl << count; " characters read\n";
+	return 0;
+}
+
+
+
+
