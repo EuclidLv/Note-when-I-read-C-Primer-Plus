@@ -1,0 +1,27 @@
+//CHAPTER 7 函数——C++的编程模块
+//定义函数
+
+void functionName(parameterList)
+{
+    statement(s);
+    return                //optional
+}
+
+
+
+//parameterList指定了传给函数的参数类型和数量
+//有返回值的函数将生成一个值，并将它返回给调用函数
+
+
+
+typeName functionName(parameterList)
+{
+    statements;
+    return value;              // value is type cast to type typeName
+}
+
+
+
+
+//C++的返回值的类型不可以是数组
+//但可以是其他任何类型：整数、浮点数、指针、甚至可以是结构体和对象（可以将数组作为结构或对象组成部分来返回）
