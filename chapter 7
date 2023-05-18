@@ -1,0 +1,461 @@
+//CHAPTER 7 函数——C++的编程模块
+//定义函数
+
+void functionName(parameterList)
+{
+    statement(s);
+    return                //optional
+}
+
+
+
+//parameterList指定了传给函数的参数类型和数量
+//有返回值的函数将生成一个值，并将它返回给调用函数
+
+
+
+typeName functionName(parameterList)
+{
+    statements;
+    return value;              // value is type cast to type typeName
+}
+
+
+
+
+//C++的返回值的类型不可以是数组
+//但可以是其他任何类型：整数、浮点数、指针、甚至可以是结构体和对象（可以将数组作为结构或对象组成部分来返回）
+
+
+
+
+
+
+
+
+//函数是如何返回值的
+//函数通过将返回值复制到指定的CPU寄存器或者内存单元中将其返回。随后，调用程序将查看该内存单元。返回函数和调用函数必须就该内存单元中存储的类型达成一致。
+//函数原型将返回值类型告诉调用程序，而函数定义命令被调用函数应返回什么类型的数据
+
+
+
+//函数在执行返回语句时。如果函数包含多条返回语句（例如，它们位于不同的if else选项中），则函数在执行遇到第一条返回语句后结束
+
+int bigger(int a, int b)
+	{
+		if (a > b)
+			return a;            //if a > b, function terminates here
+		else
+			return b;            //otherwise, function terminates here
+	}
+
+
+
+
+//函数原型
+//原型描述了函数到编译器的接口
+
+
+//函数原型不要求提供变量名，有类型列表就够了
+void cheers(int);             //okay to drop variable names in prototype
+
+
+
+
+
+//通常，在原型的参数列表中，可以包括变量名，也可以不包括。原型中的变量名相当于占位符，因此不必与函数定义中的变量名相同。
+
+
+//在C++中
+//括号为空与在括号中使用关键字void是等效的——意味着函数没有参数；
+//不指定参数列表时应使用省略号
+void say_bye(...);         //C++ abdication of responsibility
+
+
+
+
+
+
+
+
+
+
+//通常，原型自动将被传递的参数强制转换为期望的类型
+//仅当有意义时，原型化才会导致类型转换
+//在编译阶段进行的原型化被称为静态类型检查（static type checking)，静态类型检查可捕获许多在运行阶段难以捕获的错误
+
+
+
+
+
+
+
+
+
+
+
+
+//函数参数和按值传递
+//C++通常按值传递参数，这意味着将数值参数传递给函数，而后者将其赋给一个新的变量
+
+
+double volume = cube(side);
+
+double volume = cude(double x)
+//被调用时，该函数将创建一个新的名为x的double变量
+这样cube()执行的操作将不会影响main()中的数据，应为cube()使用的是side的副本，而不是原来的数据
+
+
+
+//用于接收传递值的变量被称为形参。传递给函数的值被称为实参
+//C++标准使用    参数来表示实参；     参量来表示形参
+
+
+
+
+
+
+
+
+
+
+
+//在函数中声明的变量（包括参数）是该函数私有的。在函数被调用时，计算机将为这些变量分配内存。这样的变量被称为局部变量，因为它们被限制在函数中。这样做有助于保护数据的完整性
+//这还意味着，如果在main()中声明一个名为x的变量，同时在另一个函数中也声明了一个名为x的变量，则她们将是完全不同的、毫无关系的变量。这样的变量也被称为自动变量，因为它们在程序执行的过程中自动被分配和释放的。
+
+
+
+
+
+
+
+//在函数定义中，也在函数头使用由逗号分隔的参数声明列表
+
+void fifi(float a, float b)               //declare each variable separately
+void fifi(float a, b)                     //NOT accaptable
+
+
+
+//在函数中修改形参的值不会影响调用程序中的数据
+
+
+
+
+
+
+//函数和数组
+int sum_arr(int arr[], int n)         //arr = array name, n =size
+
+//方括号指出arr是一个数组，而方括号为空则表明，可以将任何长的的数组传递给该函数。但事实情况并非如此：arr实际上并不是数组，而是一个指针。但在编写函数其余部分的时候可以将arr看作是数组
+
+#include <iostream>
+const int ArSize = 8;
+itn sum_arr(int arr[], int n);
+int main()
+{
+	using namespace std;
+	int cookies[ArSize] = { 1,2,4,8,16,32,64,128 };
+	int sum = sum_arr(cookies, ArSize);
+	cout << "Total cookies eaten: " << sum << '\n';
+	return 0;
+}
+
+int sum_arr(arr[], int n)
+{
+	int total = 0;
+	for (inti = 0; i < n; i++)
+		total += arr[i];
+	return total;
+}
+
+
+
+//在C++中，当且仅当用于函数头部或函数原型中，int*arr 和 int arr[ ]的含义是相同的。它们都意味着arr是一个int指针。
+//然而，数组表示法提醒用户arr不仅指向int，还指向int数组的第一个int
+
+
+arr[i] == *(arr + i)       //value in two natations
+&arr[i] == arr + i         //addresses in two notations
+
+
+
+
+
+
+
+
+//将数组作为参数意味着什么
+//并没有将数组内容传递给函数，而是将数组的位置（地址）、包含的元素种类（类型）以及元素数目（n变量）提交给函数。有了这些信息后，函数便可以使用原来的数组。
+//传递常规变量时，函数将使用该变量的拷贝；
+//但传递数组时，函数使用原来的数组
+
+#include <iostream>
+const int ArSize = 8;
+int sum_arr(int arr[], int n);
+int main()
+{
+	int cookies[ArSize] = { 1,2,4,8,16,32,64,128 };
+	std::cout << cookies << " = array address, ";
+	std::cout << sizeof(cookies) << " = sizeof cookies\n";
+	int sum = sum_arr(cookies, ArSize);
+	std::cout << "Total cookies eaten: " << sum << std::endl;
+	sum = sum_arr(cookies, 3);
+	std::cout << "First three eaters ate " << sum << " cookies.\n";
+	sum = sum_Arr(cookies + 4, 4);
+	std::cout << "Last four eters ate" << sum << " cookies.\n";
+	return 0;
+}
+
+int sum_arr(int arr[], int n)
+{
+	int tataol = 0;
+	std::cout << arr << " = arr, ";
+	std::cout << sizeof(arr) << " = sizeof arr\n";
+	for (int i = 0; i < n; i++)
+		total += arr[i];
+	return total;
+}
+
+
+
+
+
+//必须显示的传递数组长度，而不能在sum_arr（）中使用sizeof arr；
+//指针本身并没有指出数组的长度
+
+
+
+
+//为将数组类型和元素数量告诉数组处理函数，请通过两个不同的参数来传递
+
+
+void fillArray(int arr[], int size);          //prototype
+
+
+
+//而不要试图通过使用方括号表示法来传递数组长度
+
+void fillArray(int arr[size]);               //NO--bad prototype
+
+
+
+为防止函数无意中修改数组的内容，可在声明形参时使用关键字const
+
+void show_array(const double ar[], int n);
+
+该声明表示指针ar指向的时常量数据。这意味着不能使用ar修改该数据
+
+
+
+
+
+
+
+#include <isotream>
+const int Max = 5;
+//function prototypes
+int fill_array(double ar[], int limit);
+void show_array(const double ar[], int n);           //don't change data
+void revalue(double r, double ar[], int n);
+int main()
+{
+	using namespace std;
+	double properties[Max]{};
+	int size = fill_array(propertise, Max);
+	show _array(properties, size);
+	if (size > 0)
+	{
+		cout << "Enter revalution factor: ";
+		double factor;
+		while (!(ch >> factor))
+		{
+			cin.clear();
+			while (ch != '\n')
+				continue;
+			cout << "Bad input;please enter a number; ";
+		}
+		revalue(factor, properties, size);
+		show_array(properties, size);
+	}
+	cout << "Done.\n";
+	cin.get();
+	cin.get();
+	return 0;
+}
+
+int fill_array(double ar[], int limit)
+{
+	using namespace std;
+	double temp;
+	int i;
+	for (i = 0; i < limit; i++)
+	{
+		cout << "Enter value #" << (i + 1) << ": ";
+		cin >> temp;
+		if (!cin)     //bad input
+		{
+			cin.clear;
+			while (cin.get() != '\n')
+				continue;
+			cout << "Bad input; input process terminated.\n";
+			break;
+		}
+		else if (temp < 0)       //signal to terminate
+			break;
+		ar[i] = temp;
+	}
+	return i;
+}
+
+//the following function can use, but not alter,
+//the array whose address is ar
+void show_array(const double ar[], int n)
+{
+	using namespace std;
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Property #" << (i + 1) << ": $";
+		cout << ar[i] << endl;
+	}
+}
+
+//multiplies each elements of ar[] by r
+void revalue(double r, double ar[], int n)
+{
+	for (int i = 0; i < n; i++)
+		ar[i] *= r;
+}
+
+
+
+
+
+
+
+
+//对于处理数组的C++函数，必须将数组中的数据种类、数组的起始位置和数组中元素数量提交给它
+
+
+//还有一种给函数提交信息的方法：指定元素区间（range），可以通过传递两个指针完成：一个指针标识数组的开头，另一个标识数组的尾部
+
+
+//elbuod指向第一个元素。表达式elbuod+19指向最后一个元素（即elbuod[19]),因此elbuod+20指向数组结尾后面的一个位置
+
+
+
+
+#include <iostream>
+const int ArSize = 8;
+int sum_arr(const int* begin, const int* end);
+int main()
+{
+	using namespace std;
+	int cookies[ArSize] = { 1,2,4,8,16,32,64,128 };
+	int sum = sum_arr(cookies, cookies + ArSize);
+	cout << "Total cookies eaten: " << sum << endl;
+	sum = sum_arr(cookies, cookies + 3);                 //first three elements
+	cout << "First three eaters ate " << sum << " cookies.\n";
+	sum = sum_arr(cookies + 4, cookies + 8);             //last four elements
+	cout << " Last four eaters atr" << sum << " cookies.\n";
+	return 0;
+}
+
+//return the sum of an interage array
+int sum_arr(const int* begin,const int* end)
+{
+	const int* pt;
+	int total = 0;
+	for (pt = begin; pt != end; pt++)                //将pt设置为要吃里的第一个元素的指针，并将*pt（元素的值）加入到total中。然后，循环通过递增操作来更新pt
+                                                   //当pt指向最后一个元素是后面的位置，此时循环结束
+		total += *pt;
+	return total;
+}
+
+
+
+
+
+//cookies+ArSize指向最后一个元素后面的一个位置（数组有ArSIze个元素，因此cookies[ArSize-1]时最后一个元素，其地址为cookies+ArSize-1)因此，区间[cookies,cookies+ArSize]指定的时整个数组
+//根据指针减法规则，在sum_arr()中，表达式end-begin是一个整数值，等于数组的元素数目。
+
+
+//必须按照正确的顺序传递指针，因为这里的代码假定begin在前面，end在后面
+
+
+
+
+
+
+
+
+//指针和const
+//可以使用两种不同的方式将const关键字用于指针。
+//第一种方式：让指针指向一个常量对象，这样可以防止使用该指针来修改所指向的值
+//第二种方式：将指针本身声明为常量，这样可以防止修改指针指向的位置
+
+int age = 39;
+const int *pt = &age;
+//pt指向一个const int（这里为39），因此不能使用pt来修改这个值。换句话来说*pt的值为const，不能被修改
+
+
+*pt += 1;                //INVALID because pt points to a const int
+cin >> *pt;              //INVALID for the same reason
+
+//pt的声明并不意味着它指向的值实际上就是一个常量，而只是意味着对pt而言，这个值时常量
+可以直接通过age变量来修改age的值，但不能使用pt指针来修改它；
+*pt = 20;                //INVALID because pt points to a const int
+age = 20;                //VALID because age is not declared to be const
+
+
+
+
+
+//C++禁止将const的地址赋给非const指针。如果非要这么做，可以通过强制类型转换来突破这种限制
+
+
+
+const int **pp2;
+int *p1;
+const int n = 13;
+pp2 = &p1;                    //not allowed, but suppose it were
+*pp2 = &n;                    //vaild, both const, but sets p1 to point at n
+*p1 = 10;                     //valid, but changes const n
+
+//仅当只有一层间接关系（如指针指向基本类型）时，才可以将非const地址或指针赋给const指针
+
+
+
+
+
+
+
+
+//如果数据本身并不是指针，则可以将const数据或非const数据的地址赋给指向指向const的指针，但只能将非const数据的地址赋给非const指针
+
+
+
+
+//const强调const前面的东西
+
+
+const int* ps =&sloth    
+//const强调int
+//对应的sloth值无法使用*ps更改
+//但ps可以指向另一个对象
+
+//可以指向另一个变量，不可以修改值
+
+
+
+int* const ps = &sloth
+//const强调ps
+//所以ps指向的变量sloth不可以修改
+//但ps可以来修改sloth的值
+
+//可以改值不可以指向另一个变量
+
+
+
+
+
+
