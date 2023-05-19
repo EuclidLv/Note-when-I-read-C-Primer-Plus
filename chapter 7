@@ -459,3 +459,78 @@ int* const ps = &sloth
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//函数和二维数组
+
+
+
+
+//函数和C风格字符串
+//字符串函数原型应将其表示字符串的形参声明为char* 类型
+//字符串有内置的结束字符（意味着不必将字符串长度作为参数传给函数）
+
+
+
+#include <iostream
+unsigned int c_in_str(const char* str, char ch);
+int main()
+{
+	using namespace std;
+	char mmm[15] = "minimum";              //string in an array
+	char* wail = "ululate";                //wail points to string
+
+	unsigned int ms = c_in_str(mmm, 'm');
+	unsigned int us = c_in_str(wail, 'u');
+	cout << ms << " m characters in " << mmm << endl;
+	cout << us << " u characters in " << wail << endl;
+	return 0;
+}
+
+//this function counts the number of ch characters in the string str
+unsigned int c_in_str(const char* str, char ch)
+{
+	unsigned int count = 0;
+	while (*str)                        //quit when *str is '\0'
+	{
+		if (*str == ch)
+			count++;
+		str++;                          //move pointers to next char
+		return count;
+	}
+}
+
+
+
+
+
+//函数无法返回字符串，但可以返回字符串的地址，这样效率更高
+
+
+
+
+//函数和结构体
+//结构体将数据组合成单个实体或数据对象，该实体被视为一个整体
+//结构体名只是结构体的名称，要获得结构体的地址，必须使用地址运算符&
+
+
+
+
+
+
+
+
+
+
