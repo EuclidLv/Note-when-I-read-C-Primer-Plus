@@ -1,0 +1,542 @@
+// CHAPTER 8 函数探幽
+
+
+//C++内联函数
+//编译过程的最终产品是可执行程序——由一组机器语言指令组成。
+//运行程序时，操作系统将这些指令载入到计算机内存中，因此每一条指令都有特定的内存地址。计算机随后将逐步执行这些指令。
+//c++内联函数的编译代码与其他程序代码“内联”了起来。也就是说，编译器将使用相对应的函数代码替换函数调用。对于内联代码，程序无需跳到另一个位置处执行代码，再跳回来。
+
+//使用这一特性需要：
+//在函数声明前加上关键字inline；
+//在函数定义前加上关键字inline
+//通常的做法是省略原型将整个定义（即函数头和所有函数代码）放在本应提供原型的地方
+//内联函数不能递归
+//如果函数定义占用多行（假定没有冗长的标识符），则将其作为内联函数就不太适合
+
+#include <iostream>
+
+//an inline function definition
+inline double square(double x) {return x * x;}
+
+in main()
+{
+   using namespace std;
+   double a, b;
+   double c = 13.0;
+   
+   a = square(5.0);
+   b = square(4.5 + 7.5)          //can pass expressions
+   cout << " a = " << a << " , b = " << b << endl;
+   cout << " c = " << c;
+   cout << ", c squared = " <<square(c++) << endl;
+   cout << " Now c = " << c << endl;
+   return 0;
+   
+}
+
+//内联函数和常规函数一样都是按值传递参数的
+
+
+
+//内联与宏
+//C语言使用预处理编译器语句#define 来提供宏——内联代码的原始实现
+
+#define SQUARE(x) x * x
+
+//这不是通过传递参数实现的，而是通过文本替换来实现的——X是“参数”的符号标记
+
+a = SQUARE(5.0);     //is replaced by a =5.0*5.0;
+b = SQUARE(4.5+7.5);    //is replaced by b = 4.5+7.5*4.5+7.5;
+d = SQUARE(c++);     //is replaced by d = c++ * c++;
+//上面示例只有第一个能正常工作，可以改进#define SQUARE(x) (x) * (x)
+//但仍存在问题：宏不能按值传递
+d = SQUARE(c++);     //is replaced by d = c++ * c++;
+//c仍将递值两次；
+
+
+
+
+
+
+// 引用变量
+//引用变量的主要用途是用作函数的形参。通过将引用变量用作参数，函数将使用原始数据，而不是副本
+//除指针外，引用也为函数处理大型结构提供了一种非常方便的途径
+
+//C++给&符号赋予了另一个含义，将其用来声明引用变量。例如要将rodents作为rats变量的别名
+int rats;
+int & rodents = rats      //makes rodents an alias for rats
+
+//&是类型标识符的一部分
+//int& 指向的是int型的引用。上述引用声明允许将rats和rodents互换————它们将指向相同的值和内存单元
+
+
+
+#include <iostream>
+int main()
+{
+	using namespace std;
+	int rats = 101;
+	int& rodents = rats;              //rodents is a reference
+	cout << "rats = " << rats;
+	cout << ", rodents = " << rodents << endl;
+	rodents++;
+	cout << "rats = " << rats;
+	cout << ", rodents = " << rodents << endl;
+	cout << "rats address = " << &rats;
+	cout << ", rodents address = " << &rodents << endl;
+	return 0;
+}
+
+
+
+int & rodents = rats;                    //& reference
+cout << ", rodents address = " << &rodents << endl;          //& address
+
+
+
+
+
+//必须在声明引用时将其初始化，而不能像指针那样，先声明，再复制
+
+int rat;
+int & rodent;
+rodent = rat;          //NO, YOU CANNOT DO THIS
+
+
+//引用跟接近const指针，必须在创建时初始化，一旦与某个变量联系起来，就将一直效忠于它。
+
+//也就是说
+int & rodents = rats;
+//实际上由下面代码伪装起来的
+int * const pr = & rats;
+//其中引用rodents扮演的角色与表达式*pr相同
+
+
+
+#include <iostream>
+int main()
+{
+	using namespace std;
+	int rats = 101;
+	int& rodents = rats;              //rodents is a reference
+	cout << "rats = " << rats;
+	cout << ", rodents = " << rodents << endl;
+
+	cout << "rats address = " << &rats;
+	cout << ", rodents address = " << &rodents << endl;
+
+	int business = 50;
+	rodents = business;                 //can we change the reference？
+	cout << "business = " << business;
+	cout << ", rats = " << rats;
+	cout << ", rodents = " << rodents << endl;
+
+	cout << "business address = " << &business;
+	cout << ", rodents address = " << &rodents << endl;
+	return 0;
+}
+
+//rats = bussiness；
+//意味着将business变量的值赋值给rats变量。简而言之，可以通过初始化声明来设置引用，但不能通过赋值来设置
+
+
+
+
+
+int rats = 101;
+int *pt = &rats;
+int & rodents = *pt;
+int bunnies = 50;
+pt = &bunnies;
+//将rodents初始化为*pt使得rodents指向rats。接下来将pt改为指向bunnies，并不能改变这样的事实，
+//即rodents引用的是rats。
+
+
+
+
+
+
+//将引用用作函数参数
+//引用经常被用作函数参数，使得函数中的变量名成为调用程序中的变量的别名。这种传递参数的方法被称为按引用值传递。按引用值传递允许被调用函数能够访问函数中的变量。
+
+
+
+
+//交换函数：
+//按值传递，函数交换的是原始变量的副本，而不是变量本身的内容
+//传递引用,函数可以使用原始数据
+//另一个方法，传递指针来访问原始数据
+
+
+
+
+
+#include <iostream>
+void swapr(int&a, int&b);            //a, b are alinses for ints
+void swapp(int* p, int* q);          //p, q are addresses of ints
+void swapv(int a, int b);            //a, b are new variables
+int main()
+{
+	using namespace std;
+	int wallet1 = 300;
+	int wallet2 = 350 ;
+	cout << "wallet1 = $" << wallet1;
+	cout << "wallet2 = $" << wallet2;
+
+	cout << "using reference to swap contents:\n";
+	swapr(wallet1, wallet2);                                //pass variables              //该函数的v调用将形参a和b分别初始化为wallet1和wallet2
+	cout << "wallet1 = $" << wallet1;
+	cout << "wallet2 = $" << wallet2;
+
+	cout << "using pointers to swap contents:\n";
+	swapp(&wallet1, &wallet2);                              //pass address of variables
+	cout << "wallet1 = $" << wallet1;
+	cout << "wallet2 = $" << wallet2;
+
+	cout << "Tying to uswe passing by value:\n";
+	swapv(wallet1, wallet2);                              //pass values of variables
+	cout << "wallet1 = $" << wallet1;
+	cout << "wallet2 = $" << wallet2;
+	return 0;
+}
+
+void swapr(int& a, int& b)
+{
+	int temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+
+void swapp(int* p, int* q)
+{
+	int temp;
+	temp = *p;
+	*p = *q;
+	*q = temp;
+}
+
+void swapv(int a, int b)
+{
+	int temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+
+
+
+
+
+
+//引用属性和特别之处
+
+#include <iostream>
+double cube(double a);
+double recube(double& ra);
+int main()
+{
+	using namespace std;
+	double x = 3.0;
+	cout << double(x);
+	cout << " = cube of " << x << endl;
+	cout << recube(x);
+	cout << " = cube of " << x << endl;
+	return 0;
+}
+
+double cube(double a)
+{
+	a *= a * a;
+	return a;
+}
+
+double recube(double& ra)
+{
+	ra *= ra * ra;
+	return ra;
+}
+
+//recube()函数修改了main()中的x值，而cube()没有。
+//变量a位于cube()中，他被初始化为x的值，但修改a并不会影响x。
+//但由于recube()使用了引用参数，因此修改ra实际上就是修改x
+
+
+
+
+//如果让函数使用传递给它的信息，而不是对信息进行修改，同时又想使用引用，则应使用常量引用
+//在上述例子中，应在函数原型和函数头中使用const：
+double reference(const double &ra);
+
+//上面函数cube()，可以使用多种类型的实参。一下调用都是合法的
+double z = cube(x +2.0);                        //evaluate x + 2.0, pass value
+z = cube(8.0);                                  //pass the value 8.0
+
+int k = 10;
+z = cube(k);                                    //convert value of k to double, pass value
+
+doube yo[3] = {2.2, 3.3, 4.4};
+z = cube(yo[2]);                                //pass the value 4.4;
+
+
+//如果将上面类似的参数传递给接受引用参数的函数，将会发现，传递引用的限制更加严格
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//临时变量、引用参数和const
+//如果实参与引用参数不匹配时，C++将生成临时变量。当前，仅当参数为const引用时，C++才允许这样做
+//如果引用参数是const，则编译器将在下面两种情况下生成临时变量：
+//1. 实参的类型正确，但不是左值
+//2. 实参的类型不正确，但可以转换为正确的类型
+
+// 左值
+可以被引用的数据对象，例如，变量、数组元素、结构成员、引用和解除引用的指针
+
+//非左值
+//字面常量（用括号阔气的字符串除外，它们由其地址表示）和包含多项的表达式
+
+
+
+
+//类型要匹配
+//要事先声明类型
+//否则创建临时变量
+//改变临时变量值
+
+
+
+
+
+//将引用用于结构
+
+struct free_throws
+{
+	std::string name;
+	int made;
+	int attempts;
+	float percent;
+};
+
+//可以这样编写函数原型，在函数中将指向该结构的引用用作参数；
+void set_pc(free_throws& ft);             //use a reference to a structure
+//如果不希望函数修改传入的结构，可使用const; 
+void display(const free_throws& ft);        //don't allow changes to structure
+
+
+
+
+#include <iostream>
+#include <string>
+
+struct free_throws
+{
+	std::string name;
+	int made;
+	int attempts;
+	float percent;
+};
+
+void display(const free_throws& ft);
+void set_pc(free_throws& ft);
+free_throws& accumulate(free_throws& target, const free_throws& source);
+
+int maain()
+{
+	//partial initializations - remaining member set to 0
+	free_throws one = { "Ifelsa Branch",13,14 };
+	free_throws two = { "Andor Knott",10,16 };
+	free_throws three = { "Minnie Max",7,9 };
+	free_throws four = { "Whily Looper",5,9 };
+	free_throws five = { "Long LOng",6,14 };
+	free_throws team = { "Throwgoods",0,0 };
+	//no initialization
+	free_throws dup;
+
+	set_pc(one);
+	display(one);
+	accumulate(team, one);
+	display(team);
+	//use return value as argument
+	display(accumulate(team, two));
+	accumulate(accumulate(team, three), four);
+	display(team);
+	//use return value in assignment
+	dup = accumulate(team, five);
+	std::cout << "Displaying team:\n";
+	display(team);
+	std::cout << "Displaying dup after assignment:\n";
+	display(dup);
+	set_pc(four);
+	//ill-advised assignment
+	accumulate(dup, five) = four;
+	std::cout << "Diplaying dup after ill-advised assignment:\n";
+	display(dup);
+	return 0;
+}
+
+void display(const free_throws& ft)
+{
+	using std::cout;
+	cout << "NAme: " << ft.name << '\n';
+	cout << " Made: " << ft.made << "\t";
+	cout << "Attempts: " << ft.attempts << "\t";
+	cout << "Percent: " << ft.percent << "\n";
+}
+
+void set_pc(free_throws& ft)
+{
+	if (ft.attempts != 0)
+		ft.percent = 100.0f * float(ft.made) / float(ft.attempts);
+	else
+		ft.percent = 0;
+}
+
+free_throws& accumulate(free_throws& target, const free_throws& source)
+{
+	target.attempts += source.attempts;
+	target.made += source.made;
+	set_pc(target);
+	return target;
+}
+
+
+
+//如果指定的初始值比成员少，则余下的成员（这里只有percent）将被设置为零
+
+
+
+//返回引用的函数实际上是被引用的变量的别名
+
+
+
+
+
+
+//返回引用时最重要的一点是，应避免返回函数终止时不再存在的内存单元引用
+
+const free_throws & clone2(free_throws & ft)
+{
+			free_throws newguy;                   //first step to big error
+			newguy = ft;                          //copy info
+      return newguy;                        //return reference to copy;
+}
+
+//该函数返回一个指向临时变量（newguy）的引用，函数运行完毕后它将不再存在
+//同时也应避免返回指向临时变量的指针
+
+//为了避免这样的问题，最简单的方法是，返回一个作为参数传递给函数到引用
+
+const free_throws & clone(free_throws & ft)
+{
+			free throws * pt;
+      *pt = ft;                  //copy info
+      return *pt;                //return reference to copy
+}
+//这样便可以这样使用该函数；
+free_throws & jolly = clone(three);
+//这个有问题，不是按书上所述
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
