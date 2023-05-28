@@ -457,7 +457,38 @@ free_throws& clone(free_throws& ft)
 
 
 
+#include <iostream>
+#include <string>
+using namespace std;
+typedef struct free_throws
+{
+	string  name;
+	int made;
+	int attempts;
+	float percent;
+};
 
+const free_throws& clone(free_throws& ft);
+int main()
+{
+	free_throws one = { "Abc Def",12,10 };
+	const free_throws& jolly = clone(one);
+	cout << "a: " << jolly.attempts << endl;
+	cout << "b: " << jolly.made << endl;
+	cout << "c: " << jolly.name << endl;
+	cout << "d: " << jolly.percent << endl;
+
+ 	return 0;
+}
+
+const free_throws& clone(free_throws& ft)
+{
+	free_throws* ps = new free_throws;
+	*ps = ft;
+	return *ps;
+}
+//函数结束后ps确实不存在了但，new开辟的空间依旧存在
+//函数返回的是一个const free_throws的引用
 
 
 
