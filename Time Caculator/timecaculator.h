@@ -10,7 +10,7 @@ private:
     int seconds;
 public:
     Time();
-    Time(int h, int m, int s);
+    Time(int h, int m, int s = 0);
     void AddSec(int s);
     void AddMin(int m);
     void AddHor(int h);
